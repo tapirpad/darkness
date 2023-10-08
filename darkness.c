@@ -10,11 +10,11 @@ int main(int argc, char **argv) {
     // Check if argument is given
     if (argc < 2) {
         fputs("ERROR: No argument is given\n", stderr);
+        exit(EXIT_FAILURE);
     }
 
+    // File open for reading
     FILE *fp = fopen(BRIGHTNESS_FILE, "r");
-
-    // Validate file open for reading
     if (!fp) {
         perror("ERROR");
         exit(EXIT_FAILURE);
@@ -38,8 +38,14 @@ int main(int argc, char **argv) {
         bright_val = BRIGHTNESS_MAX;
     }
 
-    // Apply changes
+    // File open for writting
     fp = fopen(BRIGHTNESS_FILE, "w");
+    if (!fp) {
+        perror("ERROR");
+        exit(EXIT_FAILURE);
+    }
+
+    // Apply changes
     fprintf(fp, "%d", bright_val);
     fclose(fp);
 
